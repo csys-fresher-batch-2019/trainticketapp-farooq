@@ -12,7 +12,7 @@ public class TestBookSeats {
 		// TODO Auto-generated method stub
 		BookingDAO obj = new Bookingimplements();
 		try {
-			LocalDate travelDate = LocalDate.parse("2020-04-06");
+			LocalDate travelDate = LocalDate.parse("2020-04-07");
 			obj.bookSeats(32637, 1020,"chennai", "Madurai", 6,travelDate);
 			//String seatstype=obj.berth_type(5);
 		} catch (Exception e) {

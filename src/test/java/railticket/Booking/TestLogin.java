@@ -13,7 +13,7 @@ public class TestLogin {
 		 */
 		BookingDAO obj = new Bookingimplements();
 		try {
-			obj.login("faroq@gmail.com", "p1234");
+			obj.login("farooq@gmail.com", "p1234");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -26,14 +26,14 @@ public class ViewTrainsimplementation implements ListTrainDAO {
 		while (row.next()) {
 			ListTrain obj = new ListTrain();
 
-			obj.trainnumber = row.getInt("train_num");
-			obj.trainname = row.getString("train_name");
-			obj.Boardingstation = row.getString("boarding_station");
-			obj.destinationstation = row.getString("destination_station");
-			obj.arrivaltime = row.getString("ar");
-			obj.depaturetime = row.getString("dept_time");
-			obj.route = row.getString("route");
-			obj.status = row.getString("status");
+			obj.setTrainnumber(row.getInt("train_num"));
+			obj.setTrainname(row.getString("train_name"));
+			obj.setBoardingstation(row.getString("boarding_station"));
+			obj.setDestinationstation(row.getString("destination_station"));
+			obj.setArrivaltime(row.getString("ar"));
+			obj.setDepaturetime(row.getString("dept_time"));
+			obj.setRoute(row.getString("route"));
+			obj.setStatus(row.getString("status"));
 
 			task.add(obj);
 		}
@@ -58,14 +58,15 @@ public class ViewTrainsimplementation implements ListTrainDAO {
 		while (row.next()) {
 			ListTrain obj = new ListTrain();
 
-			obj.trainnumber = row.getInt("train_num");
-			obj.trainname = row.getString("train_name");
-			obj.Boardingstation = row.getString("boarding_station");
-			obj.destinationstation = row.getString("destination_station");
-			obj.arrivaltime = row.getString("arr_time");
-			obj.depaturetime = row.getString("dept");
-			obj.route = row.getString("route");
-			obj.status = row.getString("status");
+			obj.setTrainnumber(row.getInt("train_num"));
+			obj.setTrainname(row.getString("train_name"));
+			obj.setBoardingstation(row.getString("boarding_station"));
+			obj.setDestinationstation(row.getString("destination_station"));
+			obj.setArrivaltime(row.getString("ar"));
+			obj.setDepaturetime(row.getString("dept_time"));
+			obj.setRoute(row.getString("route"));
+			obj.setStatus(row.getString("status"));
+
 
 			task.add(obj);
 		}
@@ -88,14 +89,15 @@ public class ViewTrainsimplementation implements ListTrainDAO {
 
 			ListTrain obj = new ListTrain();
 
-			obj.trainnumber = row.getInt("train_num");
-			obj.trainname = row.getString("train_name");
-			obj.Boardingstation = row.getString("boarding_station");
-			obj.destinationstation = row.getString("destination_station");
-			obj.arrivaltime = row.getString("arr_time");
-			obj.depaturetime = row.getString("dept_time");
-			obj.route = row.getString("route");
-			obj.status = row.getString("status");
+			obj.setTrainnumber(row.getInt("train_num"));
+			obj.setTrainname(row.getString("train_name"));
+			obj.setBoardingstation(row.getString("boarding_station"));
+			obj.setDestinationstation(row.getString("destination_station"));
+			obj.setArrivaltime(row.getString("ar"));
+			obj.setDepaturetime(row.getString("dept_time"));
+			obj.setRoute(row.getString("route"));
+			obj.setStatus(row.getString("status"));
+
 
 			task.add(obj);
 		} else {
@@ -120,14 +122,15 @@ public class ViewTrainsimplementation implements ListTrainDAO {
 
 			ListTrain obj = new ListTrain();
 
-			obj.trainnumber = row.getInt("train_num");
-			obj.trainname = row.getString("train_name");
-			obj.Boardingstation = row.getString("boarding_station");
-			obj.destinationstation = row.getString("destination_station");
-			obj.arrivaltime = row.getString("arr_time");
-			obj.depaturetime = row.getString("dept_time");
-			obj.route = row.getString("route");
-			obj.status = row.getString("status");
+			obj.setTrainnumber(row.getInt("train_num"));
+			obj.setTrainname(row.getString("train_name"));
+			obj.setBoardingstation(row.getString("boarding_station"));
+			obj.setDestinationstation(row.getString("destination_station"));
+			obj.setArrivaltime(row.getString("ar"));
+			obj.setDepaturetime(row.getString("dept_time"));
+			obj.setRoute(row.getString("route"));
+			obj.setStatus(row.getString("status"));
+
 
 			task.add(obj);
 		} else {
@@ -144,9 +147,9 @@ public class ViewTrainsimplementation implements ListTrainDAO {
 
 		Statement stmt = connection.createStatement();
 
-		String sql = "insert into viewtrain values(" + lt.trainnumber + ",'" + lt.trainname + "','" + lt.Boardingstation
-				+ "','" + lt.destinationstation + "',to_timestamp('" + lt.arrivaltime + "','HH:MI:SS'),to_timestamp('"
-				+ lt.depaturetime + "','HH:MI:SS'),'" + lt.route + "','" + lt.status + "'," + lt.amount + ")";
+		String sql = "insert into viewtrain values(" + lt.getTrainnumber() + ",'" + lt.getTrainname() + "','" + lt.getBoardingstation()
+				+ "','" + lt.getDestinationstation() + "',to_timestamp('" + lt.getArrivaltime() + "','HH:MI:SS'),to_timestamp('"
+				+ lt.getDepaturetime() + "','HH:MI:SS'),'" + lt.getRoute() + "','" + lt.getStatus() + "'," + lt.getAmount() + ")";
 
 		stmt.executeUpdate(sql);
 		System.out.println(sql);
@@ -167,14 +170,15 @@ public class ViewTrainsimplementation implements ListTrainDAO {
 
 		while (row.next()) {
 			ListTrain obj = new ListTrain();
-			obj.trainnumber = row.getInt("train_num");
-			obj.trainname = row.getString("train_name");
-			obj.Boardingstation = row.getString("boarding_station");
-			obj.destinationstation = row.getString("destination_station");
-			obj.arrivaltime = row.getString("arr_time");
-			obj.depaturetime = row.getString("dept_time");
-			obj.route = row.getString("route");
-			obj.status = row.getString("status");
+			obj.setTrainnumber(row.getInt("train_num"));
+			obj.setTrainname(row.getString("train_name"));
+			obj.setBoardingstation(row.getString("boarding_station"));
+			obj.setDestinationstation(row.getString("destination_station"));
+			obj.setArrivaltime(row.getString("ar"));
+			obj.setDepaturetime(row.getString("dept_time"));
+			obj.setRoute(row.getString("route"));
+			obj.setStatus(row.getString("status"));
+
 
 			task.add(obj);
 		}

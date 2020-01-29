@@ -10,7 +10,7 @@ public class TestcheckStatusByPnr {
 		
 	BookingDAO obj = new Bookingimplements();
 	try {
-		obj.checkStatusByPnrNumber(123456833);
+		obj.checkStatusByPnrNumber(136905537);
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
