@@ -9,15 +9,15 @@ public class TestinsertnewTrain {
 		// TODO Auto-generated method stub
 		ViewTrainsimplementation obj = new ViewTrainsimplementation();
 		ListTrain lt = new ListTrain();
-		lt.trainnumber = 32639;
-		lt.trainname = "perl city express";
-		lt.Boardingstation="Chennai Egmore";
-		lt.destinationstation="Toothikudi";
-		lt.depaturetime="08:00:00";
-		lt.arrivaltime="02:00:00";
-		lt.route="Egmore-madurai-toothukudi";
-		lt.status="not available";
-		lt.amount=300;
+		lt.setTrainnumber(32639);
+		lt.setTrainname("perl city express");
+		lt.setBoardingstation("Chennai Egmore");
+		lt.setDestinationstation("Toothikudi");
+		lt.setDepaturetime("08:00:00");
+		lt.setArrivaltime("02:00:00");
+		lt.setRoute("Egmore-madurai-toothukudi");
+		lt.setStatus("not available");
+		lt.setAmount(300);
 		try {
 	obj.insertnewTrain(lt);
 } catch (Exception e) {
