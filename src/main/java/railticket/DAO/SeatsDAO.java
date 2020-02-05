@@ -1,4 +1,4 @@
-package railticket.DAO;
+package railticket.dao;
 
 
 import railticket.seats.Seats;;

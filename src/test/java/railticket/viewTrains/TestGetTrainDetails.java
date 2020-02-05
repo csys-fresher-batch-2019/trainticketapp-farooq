@@ -13,15 +13,13 @@ public class TestGetTrainDetails {
 		ViewTrainsimplementation obj = new ViewTrainsimplementation();
 		try {
 			LocalDate traveldate = LocalDate.parse("2020-04-21");
-			ArrayList<ListTrain> obj1=obj.getTrainDetails("chennai", "madurai",traveldate);
+			ArrayList<ListTrain> obj1 = obj.getTrainDetails("chennai", "madurai", traveldate);
 			System.out.println(obj1);
-			
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
+
 	}
 
 }

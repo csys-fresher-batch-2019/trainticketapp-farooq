@@ -1,4 +1,4 @@
-package railticket.DAO;
+package railticket.dao;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

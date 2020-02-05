@@ -5,37 +5,40 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 import railticket.TestConnect;
-import railticket.DAO.BookingDAO;
+import railticket.dao.Logger;
+import railticket.exception.DbException;
 
-public class Bookingimplements implements BookingDAO {
+public class Bookingimplements implements railticket.dao.BookingDAO {
 
 	String passengerName;
 	int age;
 	String boardingStation;
+Logger logger = Logger.getInstance();
+	public void checkStatusByPnrNumber(long pnrNumber) throws DbException {
 
-	public void checkStatusByPnrNumber(long pnrNumber) throws Exception {
-		Connection connection;
-		try {
-			connection = TestConnect.getConnection();
-			String sql = "select curr_status from booking where pnr_num=?";
-
-			PreparedStatement stmt = connection.prepareStatement(sql);
+		String sql = "select curr_status from booking where pnr_num=?";
+		try (Connection connection = TestConnect.getConnection();
+				PreparedStatement stmt = connection.prepareStatement(sql);) {
 			stmt.setLong(1, pnrNumber);
+			try (ResultSet row = stmt.executeQuery();) {
 
-			ResultSet row = stmt.executeQuery();
-			if (row.next()) {
-				String pnr = row.getString("curr_status");
-				System.out.println(pnr);
+				if (row.next()) {
+					String pnr = row.getString("curr_status");
+					System.out.println(pnr);
+				}
+
+			}catch (SQLException e) {
+throw new DbException("INVALID SQL QUERY");
 			}
-
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
+				throw new DbException("INVALID PNR NUMBER");
+			}
+			}
+			
 
 	public void getPassengernames(int noOfSeats) {
 
@@ -105,15 +108,13 @@ public class Bookingimplements implements BookingDAO {
 				while (row1.next()) {
 					int pnr = row1.getInt("pnr_num");
 					Date date1 = row1.getDate("travel_date");
-					System.out.println("PNR NUMBER=" + pnr + "\n" + "TRAVEL DATE=" + date1);
-					System.out.println("\n");
+					Logger.getInstance().info("PNR NUMBER=" + pnr + "\n" + "TRAVEL DATE=" + date1);
 				}
 
-				System.out.println("BOOKED SUCCESSFULLY");
 
 			} else {
 
-				System.out.println("YOUR ACCOUNT IS BLOCKED ");
+				throw new DbException("YOUR ACCOUNT IS BLOCKED ");
 			}
 		}
 		return a;
@@ -122,30 +123,31 @@ public class Bookingimplements implements BookingDAO {
 
 	public void login(String emailid, String password) throws Exception {
 
-		try {
+		
+		
+		String sql1 = "select email_id,pass from registration where email_id =? and pass =?";
+		try (
 			Connection connection = TestConnect.getConnection();
-
-			String sql1 = "select email_id,pass from registration where email_id =? and pass =?";
-
-			PreparedStatement stmt = connection.prepareStatement(sql1);
+			PreparedStatement stmt = connection.prepareStatement(sql1);){
+			
 			stmt.setString(1, emailid);
 			stmt.setString(2, password);
-			ResultSet row = stmt.executeQuery();
+			try(
+			ResultSet row = stmt.executeQuery();){
 			if (row.next()) {
 				String emailid1 = row.getString("email_id");
 				String password1 = row.getString("pass");
 
 				if (emailid1.equals(emailid) && password1.equals(password)) {
-					System.out.println("LOGGED IN");
+					throw new DbException("LOGGED IN");
 				}
 			} else {
-				System.out.println("INVALID EMAIL ID OR PASSWORD");
+			throw new DbException("INVALID EMAIL ID OR PASSWORD");
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DbException("UNABLE TO PROCESS");
 		}
 
 	}
-
+	}
 }

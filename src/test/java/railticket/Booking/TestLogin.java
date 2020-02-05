@@ -1,6 +1,6 @@
 package railticket.Booking;
 
-import railticket.DAO.BookingDAO;
+import railticket.dao.BookingDAO;
 import railticket.booking.Bookingimplements;
 
 public class TestLogin {

@@ -9,12 +9,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import railticket.TestConnect;
-import railticket.DAO.ListTrainDAO;
+import railticket.dao.ListTrainDAO;
 
 public class ViewTrainsimplementation implements ListTrainDAO {
 
 	public ArrayList<ListTrain> getTrainsByArrivalTime() throws Exception {
 
+		
+		
 		Connection connection = TestConnect.getConnection();
 
 		Statement stmt = connection.createStatement();
@@ -41,7 +43,7 @@ public class ViewTrainsimplementation implements ListTrainDAO {
 		obj.setTrainname(row.getString("train_name"));
 		obj.setBoardingstation(row.getString("boarding_station"));
 		obj.setDestinationstation(row.getString("destination_station"));
-		obj.setArrivaltime(row.getString("ar"));
+		obj.setArrivaltime(row.getString("arr_time"));
 		obj.setDepaturetime(row.getString("dept_time"));
 		obj.setRoute(row.getString("route"));
 		obj.setStatus(row.getString("status"));
