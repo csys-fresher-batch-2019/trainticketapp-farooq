@@ -6,7 +6,6 @@ import railticket.viewtrains.ViewTrainsimplementation;
 public class TestinsertnewTrain {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		ViewTrainsimplementation obj = new ViewTrainsimplementation();
 		ListTrain lt = new ListTrain();
 		lt.setTrainnumber(32639);
@@ -21,7 +20,6 @@ public class TestinsertnewTrain {
 		try {
 	obj.insertnewTrain(lt);
 } catch (Exception e) {
-	// TODO Auto-generated catch block
 	e.printStackTrace();
 }
 	}

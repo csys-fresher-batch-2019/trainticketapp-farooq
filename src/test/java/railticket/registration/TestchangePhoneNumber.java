@@ -8,9 +8,8 @@ public class TestchangePhoneNumber {
 	
 
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
 		RegistrationImplementation obj = new RegistrationImplementation();
-		obj.changephonenum(1001,8774744774l);
+		obj.changephonenum(1020,8444744774l);
 		System.out.println("CHECK YOUR MAIL TO CHANGE YOUR PHONE NUMBER");
 		
 	

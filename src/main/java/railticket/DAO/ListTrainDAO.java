@@ -1,5 +1,6 @@
 package railticket.DAO;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import railticket.viewtrains.ListTrain;
@@ -17,6 +18,7 @@ public interface ListTrainDAO {
 	
 	public void insertnewTrain(ListTrain lt)throws Exception;
 	
+	public ArrayList<ListTrain> getTrainDetails(String BoardingStation,String DestinationStation,LocalDate date) throws Exception;
 	
 	
 }

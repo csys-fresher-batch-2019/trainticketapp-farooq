@@ -1,8 +1,19 @@
 package railticket.seats;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 public class Seats {
 	
 	private int trainnumber;
+	@Override
+	public String toString() {
+		return "Seats [trainnumber=" + trainnumber + ", travelDate=" + travelDate + ", availableseats=" + availableseats
+				+ "]";
+	}
+	private Date travelDate;
+	private int availableseats;
+
 	public int getTrainnumber() {
 		
 		return trainnumber;
@@ -16,7 +27,6 @@ public class Seats {
 	public void setAvailableseats(int availableseats) {
 		this.availableseats = availableseats;
 	}
-	private int availableseats;
 	
 	public Seats(int trainnumber, int availableseats) {
 		this.trainnumber = trainnumber;
@@ -25,8 +35,15 @@ public class Seats {
 	public Seats() {
 		// TODO Auto-generated constructor stub
 	}
-	@Override
-	public String toString() {
-		return "TestSeats [trainnumber=" + trainnumber + ", availableseats=" + availableseats + "]";
+	
+	
+	
+	
+	public Date getTravelDate() {
+		return travelDate;
 	}
+	public void setTravelDate(Date date) {
+		this.travelDate = date;
+	}
+	
 }

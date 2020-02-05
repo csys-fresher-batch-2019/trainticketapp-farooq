@@ -12,7 +12,6 @@ import railticket.Registration.RegistrationImplementation;
 public class TestgetAllUserDetails {
 
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
 		RegistrationImplementation obj = new RegistrationImplementation();
 		 obj.getAllUserDetails();
 		

@@ -1,10 +1,9 @@
 package railticket.viewtrains;
 
-
+import java.time.LocalDate;
 
 public class ListTrain {
 
-	
 	public int getTrainnumber() {
 		return trainnumber;
 	}
@@ -86,10 +85,18 @@ public class ListTrain {
 	private String route;
 	private String status;
 	private int amount;
-		
-	
+	private LocalDate date;
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
 	public ListTrain(int trainnumber, String trainname, String boardingstation, String destinationstation,
-			String arrivaltime, String depaturetime, String route, String status,int amount) {
+			String arrivaltime, String depaturetime, String route, String status, int amount) {
 		this.trainnumber = trainnumber;
 		this.trainname = trainname;
 		this.Boardingstation = boardingstation;
@@ -98,17 +105,12 @@ public class ListTrain {
 		this.depaturetime = depaturetime;
 		this.route = route;
 		this.status = status;
-		this.amount= amount;
+		this.amount = amount;
 	}
 
 	public ListTrain() {
-		// TODO Auto-generated constructor stub
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
 	public String toString() {
 		return "ListTrain [trainnumber=" + trainnumber + ", trainname=" + trainname + ", Boardingstation="
 				+ Boardingstation + ", destinationstation=" + destinationstation + ", arrivaltime=" + arrivaltime
@@ -116,5 +118,4 @@ public class ListTrain {
 				+ "]";
 	}
 
-	
 }
