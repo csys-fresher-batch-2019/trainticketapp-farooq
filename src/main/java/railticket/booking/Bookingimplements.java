@@ -57,7 +57,8 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 		
 			if (status == 0) {
 				System.out.println(trainnumber +"-" + userId + "-" + boarding +"-" + destination + "-" + date + "-" + noOfSeats);
-				CallableStatement stmt = connection.prepareCall("{call PR_booking_status(?,?,?,?,?,?)}");
+		try(
+				CallableStatement stmt = connection.prepareCall("{call PR_booking_status(?,?,?,?,?,?)}");){
 				stmt.setInt(1, trainnumber);
 				stmt.setInt(2, userId);
 				stmt.setString(3, boarding);
@@ -77,7 +78,8 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 					String sql4 = "select no_of_seats from booking where travel_date=to_date('" + date2
 							+ "','yyyy-MM-dd') and user_id=" + userId + "";
 					// System.out.println(sql4);
-					ResultSet seats = connection.createStatement().executeQuery(sql4);
+					try(
+					ResultSet seats = connection.createStatement().executeQuery(sql4);){
 					if (seats.next()) {
 						int seats1 = seats.getInt("no_of_seats");
 						a = seats1 * amount;
@@ -89,7 +91,8 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 					}
 					String sql5 = "select no_of_seats from bookingQueue where travel_date=to_date('" + date2
 							+ "','yyyy-MM-dd') and user_id=" + userId + "";
-					ResultSet seats1 = connection.createStatement().executeQuery(sql5);
+					try(
+					ResultSet seats1 = connection.createStatement().executeQuery(sql5);){
 
 					if (seats1.next()) {
 						int seats2 = seats1.findColumn("no_of_seats");
@@ -99,19 +102,31 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 						stmt.executeUpdate(sql6);
 						System.out.println("\n");
 					}
+				}catch(Exception e) {
+					throw new DbException("invalid sql query sql5");
+				}
+					}catch(Exception e) {
+					throw new DbException("invalid sql query sql4");
 				}
 
 				String sql1 = "select pnr_num,travel_date from booking where travel_date=to_date('" + date
 						+ "','yyyy-MM-dd')";
 
-				ResultSet row1 = connection.createStatement().executeQuery(sql1);
+				try(
+				ResultSet row1 = connection.createStatement().executeQuery(sql1);){
 				while (row1.next()) {
 					int pnr = row1.getInt("pnr_num");
 					Date date1 = row1.getDate("travel_date");
 					Logger.getInstance().info("PNR NUMBER=" + pnr + "\n" + "TRAVEL DATE=" + date1);
 				}
 
-			} else {
+			}catch(Exception e) {
+				throw new DbException("invalid sql query sql1");
+			}
+				}} catch(Exception e) {
+				throw new DbException("INVALID CALLABLE STATEMENT");
+			}
+		}else {
 
 				throw new DbException("YOUR ACCOUNT IS BLOCKED ");
 			}
@@ -132,8 +147,8 @@ Boolean result = false;
 
 		stmt.setInt(1, userid);
 		stmt.setString(2, password);
-
-		ResultSet row = stmt.executeQuery();
+try(
+		ResultSet row = stmt.executeQuery();){
 		if (row.next()) {
 			int userid1 = row.getInt("user_id");
 			String password1 = row.getString("pass");
@@ -144,7 +159,10 @@ Boolean result = false;
 		} else {
 			throw new DbException("INVALID EMAIL ID OR PASSWORD");
 		}
-	} catch (SQLException e) {
+	}catch(Exception e) {
+		throw new DbException("invalid Statement");
+	}
+	}catch (SQLException e) {
 		throw new DbException("UNABLE TO EXECUTE SQL QUERY");
 	} catch (Exception e1) {
 		throw new DbException("UNABLE TO PROCESS");
