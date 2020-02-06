@@ -31,18 +31,20 @@ public class RegistrationImplementation implements railticket.dao.RegistrationDA
 					if (userid == userid1) {
 
 						String query1 = "update registration set phone_num =? where user_id=?";
-						PreparedStatement stmt1 = connection.prepareStatement(query1);
+						
+					try(
+						PreparedStatement stmt1 = connection.prepareStatement(query1);){
 
 						stmt1.setLong(1, phonenumber);
 						stmt1.setInt(2, userid);
 						stmt1.executeUpdate();
-					} else {
+					} catch(Exception e) {
 						throw new Exception("INVALID USER");
 
 					}
 
 				}
-			} catch (Exception e) {
+			}} catch (Exception e) {
 				throw new DbException("UNABLE TO PROCESS");
 			}
 
@@ -88,7 +90,7 @@ public class RegistrationImplementation implements railticket.dao.RegistrationDA
 
 	}
 
-	public void deleteUser(String emailid) throws DbException {
+	public void deleteUser(String emailid) throws DbException, Exception {
 		String sql = "select email_id from registration where email_id =?";
 		try (Connection connection = TestConnect.getConnection();
 
@@ -102,22 +104,19 @@ public class RegistrationImplementation implements railticket.dao.RegistrationDA
 
 					if (emailid.equals(emailid1)) {
 						String sql1 = "delete registration where email_id=?";
-						PreparedStatement stmt1 = connection.prepareStatement(sql1);
+						
+						try(
+						PreparedStatement stmt1 = connection.prepareStatement(sql1);){
 						stmt1.executeUpdate(sql1);
 
 					}
 
-				} else {
+				 catch(Exception e) {
 					throw new Exception("INVALID");
 				}
-			} catch (Exception e) {
+					}}} catch (Exception e) {
 				throw new DbException("ESTABLISH CONNECTION");
-			}
-		} catch (SQLException e1) {
-			throw new DbException("INVALID SQL QUERY");
-		} catch (Exception e1) {
-			throw new DbException("UNABLE TO PROGRESS");
-		}
+			}}
 	}
 
 	public void getUserByCity(String city) throws DbException {
@@ -296,10 +295,10 @@ throw new DbException("ESTABLISH CONNECTION");
 	public void registrationInsert(String username, String password, String emailid, long phonenumber, String gender,
 			LocalDate dob, String cityname) throws DbException {
 
-		try {
+		try (
 			Connection connection = TestConnect.getConnection();
 
-			Statement stmt = connection.createStatement();
+			Statement stmt = connection.createStatement();){
 
 			String sql = "insert into registration(user_id,user_name,pass,email_id,phone_num,gender,dob,city_name) values(user_id_seq.nextval,'"
 					+ username + "','" + password + "','" + emailid + "'," + phonenumber + ",'" + gender + "',to_date('"
@@ -307,8 +306,8 @@ throw new DbException("ESTABLISH CONNECTION");
 			System.out.println(sql);
 			String sql1 = "select user_id from registration where email_id='" + emailid + "'";
 			stmt.executeUpdate(sql);
-
-			ResultSet row1 = stmt.executeQuery(sql1);
+try(
+			ResultSet row1 = stmt.executeQuery(sql1);){
 			if (row1.next()) {
 				System.out.println("NOTE DOWN THE USER_ID FOR BOOKING");
 				String user_id = row1.getString("user_id");
@@ -316,10 +315,12 @@ throw new DbException("ESTABLISH CONNECTION");
 			}
 		} catch (Exception e) {
 throw new DbException("invalid entry");
-		}
-
 	}
 
+	}catch(Exception e) {
+	throw new DbException("ESTABLISH CONNECTION");	
+	}
+	}
 	public void blockUser(int userid, int status) throws DbException {
 
 		String sql = "update registration set blocklist =? where user_id=?";

@@ -45,29 +45,27 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 	}
 
 	public int bookSeats(int trainnumber, int userId, String boarding, String destination, int noOfSeats,
+		
 			LocalDate date) throws Exception {
-		Connection connection = TestConnect.getConnection();
-
-		String sql = "select blocklist from registration where user_id=" + userId ;
-
-		ResultSet row = connection.createStatement().executeQuery(sql);
-
+		String sql = "select blocklist from registration where user_id=?" ;
+	
+	try(	Connection connection = TestConnect.getConnection();
+			ResultSet row = (ResultSet) connection.prepareStatement(sql);){
 		int a = 0;
 		if (row.next()) {
 			int status = row.getInt("blocklist");
-			System.out.println(status);
+		
 			if (status == 0) {
 				System.out.println(trainnumber +"-" + userId + "-" + boarding +"-" + destination + "-" + date + "-" + noOfSeats);
 				CallableStatement stmt = connection.prepareCall("{call PR_booking_status(?,?,?,?,?,?)}");
 				stmt.setInt(1, trainnumber);
-				// stmt.registerOutParameter(2, Types.INTEGER);
 				stmt.setInt(2, userId);
 				stmt.setString(3, boarding);
 				stmt.setString(4, destination);
 				java.sql.Date date2 = java.sql.Date.valueOf(date);
 				stmt.setDate(6, date2);
 				stmt.setInt(5, noOfSeats);
-				System.out.println(noOfSeats);
+				
 				stmt.executeQuery();
 				String sql2 = "select amount from viewtrain where train_num='" + trainnumber + "'";
 				ResultSet row3 = connection.createStatement().executeQuery(sql2);
@@ -119,7 +117,9 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 			}
 		}
 		return a;
-
+	}catch(DbException e1) {
+		throw new DbException("ESTABLISH CONNECTION");
+	}
 	}
 
 	public boolean login(int userid, String password) throws DbException {

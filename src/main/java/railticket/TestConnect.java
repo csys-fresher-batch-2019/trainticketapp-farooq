@@ -9,7 +9,7 @@ public class TestConnect {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 
 	
-		Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@192.168.56.205:1521:XE", "system", "oracle");
+		Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "system", "oracle");
 		System.out.println(connection);
 		return connection;
 	}
