@@ -11,7 +11,7 @@ public interface BookingDAO {
 
 	public int bookSeats(int trainnumber,int userId,String boarding,String destination,int noOfSeats,LocalDate date) throws Exception;
 
-	public void login(String emailid,String password)throws Exception;
+	public boolean login(int userid,String password)throws Exception;
 	 
 	
 }
