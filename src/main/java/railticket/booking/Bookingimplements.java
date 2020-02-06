@@ -69,7 +69,8 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 				
 				stmt.executeQuery();
 				String sql2 = "select amount from viewtrain where train_num='" + trainnumber + "'";
-				ResultSet row3 = connection.createStatement().executeQuery(sql2);
+				try(
+				ResultSet row3 = connection.createStatement().executeQuery(sql2);){
 				if (row3.next()) {
 					int amount = row3.getInt("amount");
 					System.out.println("BOOKING DETAILS");
@@ -123,7 +124,10 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 			}catch(Exception e) {
 				throw new DbException("invalid sql query sql1");
 			}
-				}} catch(Exception e) {
+				}}catch(Exception e) {
+					throw new DbException("invalid sql query sql2");
+				}
+				} catch(Exception e) {
 				throw new DbException("INVALID CALLABLE STATEMENT");
 			}
 		}else {
