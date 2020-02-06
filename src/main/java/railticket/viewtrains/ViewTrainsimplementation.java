@@ -123,19 +123,15 @@ throw new DbException("INVALID SQL QUERY");
 			listall(row, obj);
 
 			task.add(obj);
-		} else {
-			throw new Exception("INVALID TRAIN NAME");
-		}
+		} 
+		} catch (SQLException e) {
+			throw new DbException("INVALID sql query");
 		} catch (Exception e) {
-			try {
-				throw new Exception("INVALID sql query");
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
-		}
+			throw new DbException("INVALID sql query");
+		} 
 		return task;
-
 	}
+	
 
 	public void insertnewTrain(ListTrain lt) throws Exception {
 		

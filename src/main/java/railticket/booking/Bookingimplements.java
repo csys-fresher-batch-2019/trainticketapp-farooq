@@ -68,19 +68,16 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 				stmt.setInt(5, noOfSeats);
 				
 				stmt.executeQuery();
-				String sql2 = "select amount from viewtrain where train_num='" + trainnumber + "'";
 				try(
-				ResultSet row3 = connection.createStatement().executeQuery(sql2);){
+				ResultSet row3 = connection.createStatement().executeQuery( "select amount from viewtrain where train_num='" + trainnumber + "'");){
 				if (row3.next()) {
 					int amount = row3.getInt("amount");
 					System.out.println("BOOKING DETAILS");
 					System.out.println("\n");
 
-					String sql4 = "select no_of_seats from booking where travel_date=to_date('" + date2
-							+ "','yyyy-MM-dd') and user_id=" + userId + "";
-					// System.out.println(sql4);
 					try(
-					ResultSet seats = connection.createStatement().executeQuery(sql4);){
+					ResultSet seats = connection.createStatement().executeQuery("select no_of_seats from booking where travel_date=to_date('" + date2
+							+ "','yyyy-MM-dd') and user_id=" + userId + "");){
 					if (seats.next()) {
 						int seats1 = seats.getInt("no_of_seats");
 						a = seats1 * amount;
@@ -90,10 +87,9 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 								+ "','yyyy-MM-dd') and user_id=" + userId + "";
 						stmt.executeUpdate(sql3);
 					}
-					String sql5 = "select no_of_seats from bookingQueue where travel_date=to_date('" + date2
-							+ "','yyyy-MM-dd') and user_id=" + userId + "";
 					try(
-					ResultSet seats1 = connection.createStatement().executeQuery(sql5);){
+					ResultSet seats1 = connection.createStatement().executeQuery("select no_of_seats from bookingQueue where travel_date=to_date('" + date2
+							+ "','yyyy-MM-dd') and user_id=" + userId + "");){
 
 					if (seats1.next()) {
 						int seats2 = seats1.findColumn("no_of_seats");
@@ -110,11 +106,10 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 					throw new DbException("invalid sql query sql4");
 				}
 
-				String sql1 = "select pnr_num,travel_date from booking where travel_date=to_date('" + date
-						+ "','yyyy-MM-dd')";
 
 				try(
-				ResultSet row1 = connection.createStatement().executeQuery(sql1);){
+				ResultSet row1 = connection.createStatement().executeQuery("select pnr_num,travel_date from booking where travel_date=to_date('" + date
+						+ "','yyyy-MM-dd')");){
 				while (row1.next()) {
 					int pnr = row1.getInt("pnr_num");
 					Date date1 = row1.getDate("travel_date");
