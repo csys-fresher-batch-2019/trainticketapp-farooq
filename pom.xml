@@ -14,6 +14,12 @@
   
   <dependencies>
   <!-- https://mvnrepository.com/artifact/com.sendgrid/sendgrid-java -->
+  <!--
+   <dependency>
+  <groupId>com.karthi</groupId>
+  <artifactId>citipe</artifactId>
+  <version>1.0.2</version>
+</dependency>-->
 <dependency>
     <groupId>com.sendgrid</groupId>
     <artifactId>sendgrid-java</artifactId>
@@ -26,4 +32,12 @@
      <scope>test</scope>
    </dependency>
   </dependencies>
+  
+  <distributionManagement>
+   <repository>
+     <id>github</id>
+     <name>GitHub OWNER Apache Maven Packages</name>
+     <url>https://maven.pkg.github.com/csys-fresher-batch-2019/wallet-karthick</url>
+   </repository>
+</distributionManagement>
 </project>
