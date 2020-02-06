@@ -121,7 +121,7 @@ throw new DbException("INVALID SQL QUERY");
 
 	}
 
-	public void login(String emailid, String password) throws Exception {
+	public void login(String emailid, String password) throws DbException, SQLException {
 
 		
 		
@@ -144,10 +144,14 @@ throw new DbException("INVALID SQL QUERY");
 			} else {
 			throw new DbException("INVALID EMAIL ID OR PASSWORD");
 			}
-		} catch (Exception e) {
-			throw new DbException("UNABLE TO PROCESS");
 		}
+			 catch (Exception e) {
+			throw new DbException("UNABLE TO EXECUTE");
+		}
+		}
+	 catch (Exception e1) {
+		throw new DbException("ESTABLISH CONNECTION");
 
-	}
+		} 
 	}
 }
