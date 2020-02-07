@@ -1,4 +1,4 @@
-package railticket.Registration;
+package railticket.registration;
 
 import java.sql.Date;
 

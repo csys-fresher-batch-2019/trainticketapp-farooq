@@ -6,11 +6,13 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 
 import railticket.TestConnect;
 import railticket.dao.Logger;
 import railticket.exception.DbException;
+import railticket.exception.ErrorMessages;
 
 public class Bookingimplements implements railticket.dao.BookingDAO {
 
@@ -25,18 +27,22 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 		try (Connection connection = TestConnect.getConnection();
 				PreparedStatement stmt = connection.prepareStatement(sql);) {
 			stmt.setLong(1, pnrNumber);
+			
 			try (ResultSet row = stmt.executeQuery();) {
 
 				if (row.next()) {
-					String pnr = row.getString("curr_status");
-					System.out.println(pnr);
+					String status=row.getString("curr_status");
+					logger.info(status);
+				}
+				else {
+					logger.info("NO DATA");
 				}
 
 			} catch (SQLException e) {
-				throw new DbException("INVALID SQL QUERY");
+				throw new DbException(ErrorMessages.INVALID_SQLQUERY);
 			}
 		} catch (Exception e) {
-			throw new DbException("INVALID PNR NUMBER");
+			throw new DbException(ErrorMessages.ESTABLISH_CONNECTION);
 		}
 	}
 
@@ -50,7 +56,9 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 		String sql = "select blocklist from registration where user_id='"+userId+"'" ;
 	
 	try(	Connection connection = TestConnect.getConnection();
-			ResultSet row =  connection.createStatement().executeQuery(sql);){
+			Statement stmt1 = connection.createStatement();
+			){
+		try(ResultSet row =  stmt1.executeQuery(sql);){
 		int a = 0;
 		if (row.next()) {
 			int status = row.getInt("blocklist");
@@ -68,6 +76,7 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 				stmt.setInt(5, noOfSeats);
 				
 				stmt.executeQuery();
+				
 				String sql2 = "select amount from viewtrain where train_num='" + trainnumber + "'";
 				try(
 				ResultSet row3 = connection.createStatement().executeQuery(sql2);){
@@ -104,10 +113,10 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 						System.out.println("\n");
 					}
 				}catch(Exception e) {
-					throw new DbException("invalid sql query sql5");
+					throw new DbException(ErrorMessages.INVALID_SQLQUERY);
 				}
 					}catch(Exception e) {
-					throw new DbException("invalid sql query sql4");
+					throw new DbException(ErrorMessages.INVALID_SQLQUERY);
 				}
 
 				String sql1 = "select pnr_num,travel_date from booking where travel_date=to_date('" + date
@@ -122,13 +131,13 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 				}
 
 			}catch(Exception e) {
-				throw new DbException("invalid sql query sql1");
+				throw new DbException(ErrorMessages.INVALID_SQLQUERY);
 			}
 				}}catch(Exception e) {
-					throw new DbException("invalid sql query sql4");
+					throw new DbException(ErrorMessages.INVALID_SQLQUERY);
 				}
 				} catch(Exception e) {
-				throw new DbException("INVALID CALLABLE STATEMENT");
+				throw new DbException(ErrorMessages.ALL_VARIABLES_NOT_BOUND);
 			}
 		}else {
 
@@ -136,8 +145,11 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 			}
 		}
 		return a;
-	}catch(DbException e1) {
-		throw new DbException("ESTABLISH CONNECTION");
+	}catch(DbException e) {
+		throw new DbException(ErrorMessages.ESTABLISH_CONNECTION);
+	}
+		}catch(DbException e1) {
+		throw new DbException(ErrorMessages.INVALID_SQLQUERY);
 	}
 	}
 
@@ -158,18 +170,19 @@ try(
 			String password1 = row.getString("pass");
 
 			if (userid1==userid && password1.equals(password)) {
+				logger.info("LOGGED IN");
 				result=true;
 			}
 		} else {
-			throw new DbException("INVALID EMAIL ID OR PASSWORD");
+			logger.info("INVALID EMAIL ID OR PASSWORD");
 		}
 	}catch(Exception e) {
-		throw new DbException("invalid Statement");
+		throw new DbException(ErrorMessages.INVALID_SQLQUERY);
 	}
 	}catch (SQLException e) {
-		throw new DbException("UNABLE TO EXECUTE SQL QUERY");
+		throw new DbException(ErrorMessages.ESTABLISH_CONNECTION);
 	} catch (Exception e1) {
-		throw new DbException("UNABLE TO PROCESS");
+		throw new DbException(ErrorMessages.UNABLE_TO_PROCESS);
 	}
 	return result;
 	}

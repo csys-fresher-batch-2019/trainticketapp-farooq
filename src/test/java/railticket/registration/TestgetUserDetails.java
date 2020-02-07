@@ -6,8 +6,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 
-import railticket.Registration.Register;
-import railticket.Registration.RegistrationImplementation;
+import railticket.registration.Register;
+import railticket.registration.RegistrationImplementation;
 
 public class TestgetUserDetails {
 

@@ -2,7 +2,7 @@ package railticket.registration;
 
 import java.time.LocalDate;
 
-import railticket.Registration.RegistrationImplementation;
+import railticket.registration.RegistrationImplementation;
 
 public class TestRegistrationInsert {
 

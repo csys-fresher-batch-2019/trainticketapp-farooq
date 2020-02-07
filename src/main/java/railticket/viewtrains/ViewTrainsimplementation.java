@@ -10,23 +10,25 @@ import java.util.ArrayList;
 
 import railticket.TestConnect;
 import railticket.dao.ListTrainDAO;
+import railticket.dao.Logger;
 import railticket.exception.DbException;
+import railticket.exception.ErrorMessages;
 
 public class ViewTrainsimplementation implements ListTrainDAO {
 
-	public ArrayList<ListTrain> getTrainsByArrivalTime() throws Exception {
+	public ArrayList<ListTrain> getTrainsByArrivalTime() throws DbException {
 
-		
+		try(
 		
 		Connection connection = TestConnect.getConnection();
 
-		Statement stmt = connection.createStatement();
+		Statement stmt = connection.createStatement();){
 
 		String query1 = "select train_num,train_name, to_char(arr_time,'hh24:mi:ss')as ar,route,boarding_station,destination_station,dept_time,status from viewtrain order by arr_time desc";
 
 		ArrayList<ListTrain> task = new ArrayList<ListTrain>();
-
-		ResultSet row = stmt.executeQuery(query1);
+try(
+		ResultSet row = stmt.executeQuery(query1);){
 
 		while (row.next()) {
 			ListTrain obj = new ListTrain();
@@ -37,8 +39,14 @@ public class ViewTrainsimplementation implements ListTrainDAO {
 		}
 		return task;
 
+	}catch(Exception e) {
+		throw new DbException(ErrorMessages.INVALID_DATA);
 	}
 
+}catch(Exception e) {
+		throw new DbException(ErrorMessages.UNABLE_TO_PROCESS_QUERY);
+	}
+	}
 	private void listall(ResultSet row, ListTrain obj) throws SQLException {
 		obj.setTrainnumber(row.getInt("train_num"));
 		obj.setTrainname(row.getString("train_name"));
@@ -50,17 +58,17 @@ public class ViewTrainsimplementation implements ListTrainDAO {
 		obj.setStatus(row.getString("status"));
 	}
 
-	public ArrayList<ListTrain> getTrainsByDeptTime() throws Exception {
-
+	public ArrayList<ListTrain> getTrainsByDeptTime() throws DbException {
+try(
 		Connection connection = TestConnect.getConnection();
 
-		Statement stmt = connection.createStatement();
+		Statement stmt = connection.createStatement();){
 
 		String query = "select train_num,train_name, to_char(dept_time,'hh24:mi:ss') as dept,route,boarding_station,destination_station,arr_time,status from viewtrain order by arr_time asc";
 
 		ArrayList<ListTrain> task = new ArrayList<ListTrain>();
-
-		ResultSet row = stmt.executeQuery(query);
+try(
+		ResultSet row = stmt.executeQuery(query);){
 
 		while (row.next()) {
 			ListTrain obj = new ListTrain();
@@ -70,21 +78,28 @@ public class ViewTrainsimplementation implements ListTrainDAO {
 			task.add(obj);
 		}
 		return task;
+	}catch(Exception e) {
+		throw new DbException(ErrorMessages.INVALID_DATA);
+	}
+
+}catch(Exception e) {
+		throw new DbException(ErrorMessages.UNABLE_TO_PROCESS_QUERY);
+	}
 	}
 
 	public ArrayList<ListTrain> getTrainDetailsByname(String trainname) throws DbException {
 
 		ArrayList<ListTrain> task = new ArrayList<ListTrain>();
-
+		String query = "select * from viewtrain where train_name LIKE '% ? %'";
 		try(
 		Connection connection = TestConnect.getConnection();
 
-		Statement stmt = connection.createStatement();){
+		PreparedStatement stmt = connection.prepareStatement(query);){
 
-
-		String query = "select * from viewtrain where train_name LIKE '%" + trainname + "%'";
+stmt.setString(1, trainname);
+		
 try(
-		ResultSet row = stmt.executeQuery(query);){
+		ResultSet row = stmt.executeQuery();){
 		if (row.next()) {
 
 			ListTrain obj = new ListTrain();
@@ -93,28 +108,29 @@ try(
 
 			task.add(obj);
 		} else {
-			throw new Exception("INVALID TRAIN NAME");
+			Logger.getInstance().info("INVALID TRAIN NAME");
 		}
 	}} catch (SQLException e) {
-throw new DbException("INVALID SQL QUERY");
+throw new DbException(ErrorMessages.UNABLE_TO_PROCESS_QUERY);
 	} catch (Exception e) {
-		throw new DbException("UNABLE TO PROCESS");
+		throw new DbException(ErrorMessages.UNABLE_TO_PROCESS);
 	}		return task;
 }
 
 	public ArrayList<ListTrain> getTrainDetailsByTrainNumber(int trainnum) throws DbException {
 		
+		String query = "select * from viewtrain where train_num=?";
 		ArrayList<ListTrain> task = new ArrayList<ListTrain>();
 		try(
 		Connection connection = TestConnect.getConnection();
 
-		Statement stmt = connection.createStatement();){
+		PreparedStatement stmt = connection.prepareStatement(query)){
 
-		
+		stmt.setInt(1, trainnum);
 
-		String query = "select * from viewtrain where train_num=" + trainnum + "";
+		try(
 
-		ResultSet row = stmt.executeQuery(query);
+		ResultSet row = stmt.executeQuery();){
 
 		if (row.next()) {
 
@@ -124,16 +140,19 @@ throw new DbException("INVALID SQL QUERY");
 
 			task.add(obj);
 		} 
-		} catch (SQLException e) {
-			throw new DbException("INVALID sql query");
 		} catch (Exception e) {
-			throw new DbException("INVALID sql query");
+			throw new DbException(ErrorMessages.INVALID_DATA);
+		} 
+		} catch (SQLException e) {
+			throw new DbException(ErrorMessages.UNABLE_TO_PROCESS_QUERY);
+		} catch (Exception e) {
+			throw new DbException(ErrorMessages.UNABLE_TO_PROCESS);
 		} 
 		return task;
 	}
 	
 
-	public void insertnewTrain(ListTrain lt) throws Exception {
+	public void insertnewTrain(ListTrain lt) throws DbException {
 		
 		try(
 		Connection connection = TestConnect.getConnection();
@@ -145,7 +164,10 @@ throw new DbException("INVALID SQL QUERY");
 				+ lt.getArrivaltime() + "','HH:MI:SS'),to_timestamp('" + lt.getDepaturetime() + "','HH:MI:SS'),'"
 				+ lt.getRoute() + "','" + lt.getStatus() + "'," + lt.getAmount() + ")";
 
-			stmt.executeUpdate(sql);}
+			stmt.executeUpdate(sql);
+			}catch(Exception e) {
+				throw new DbException(ErrorMessages.UNABLE_TO_PROCESS_QUERY);
+			}
 	}
 
 	public ArrayList<ListTrain> getAllTrainsDetails() throws Exception {
@@ -156,8 +178,8 @@ throw new DbException("INVALID SQL QUERY");
 
 		String query = "select * from viewtrain";
 		System.out.println(query);
-
-		ResultSet row = stmt.executeQuery(query);
+try(
+		ResultSet row = stmt.executeQuery(query);){
 
 		ArrayList<ListTrain> task = new ArrayList<ListTrain>();
 
@@ -168,7 +190,13 @@ throw new DbException("INVALID SQL QUERY");
 			task.add(obj);
 		}
 
-		return task;}
+		return task;
+		} catch (Exception e) {
+			throw new DbException(ErrorMessages.INVALID_DATA);
+		} 
+} catch (Exception e) {
+	throw new DbException(ErrorMessages.UNABLE_TO_PROCESS_QUERY);
+} 
 	}
 
 	public ArrayList<ListTrain> getTrainDetails(String BoardingStation, String DestinationStation, LocalDate traveldate)
@@ -197,8 +225,15 @@ throw new DbException("INVALID SQL QUERY");
 			obj.setAmount(rs.getInt("amount"));
 			task.add(obj);
 		}
-		return task;}
+		return task;
+		} catch (Exception e) {
+			throw new DbException(ErrorMessages.INVALID_DATA);
+		} 
+	} catch (Exception e) {
+		throw new DbException(ErrorMessages.UNABLE_TO_PROCESS_QUERY);
+	} 
 
-	}}
+	}
+		}
 
-}
+

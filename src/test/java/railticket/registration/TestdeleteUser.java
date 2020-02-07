@@ -1,6 +1,6 @@
 package railticket.registration;
 
-import railticket.Registration.RegistrationImplementation;
+import railticket.registration.RegistrationImplementation;
 
 public class TestdeleteUser {
 

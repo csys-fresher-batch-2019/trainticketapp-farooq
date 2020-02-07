@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import railticket.TestConnect;
 import railticket.dao.SeatsDAO;
 import railticket.exception.DbException;
+import railticket.exception.ErrorMessages;
 import railticket.seats.Seats;;
 
 
@@ -28,7 +29,7 @@ stmt.setLong(1, s.getAvailableseats());
 stmt.setInt(2, s.getTrainnumber());
 			stmt.executeUpdate();
 	} catch (Exception e) {
-		throw new DbException("INVALID DATA");
+		throw new DbException(ErrorMessages.UNABLE_TO_PROCESS_QUERY);
 	}
 		
 	}
@@ -48,13 +49,13 @@ stmt.setInt(2, s.getTrainnumber());
 				System.out.println("AVAILABLE SEATS="+seats);
 			}
 		} catch (Exception e) {
-throw new DbException("ESTABLISH CONNECTION");
+throw new DbException(ErrorMessages.INVALID_DATA);
 		}
 		
 	} catch (SQLException e1) {
-		throw new DbException("INVALID SQL QUERY");		
+		throw new DbException(ErrorMessages.UNABLE_TO_PROCESS_QUERY);		
 	} catch (Exception e1) {
-		throw new DbException("UNABLE TO PROCESS");
+		throw new DbException(ErrorMessages.UNABLE_TO_PROCESS);
 	}
 	}
 }

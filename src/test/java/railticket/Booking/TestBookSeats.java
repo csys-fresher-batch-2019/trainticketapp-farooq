@@ -15,8 +15,8 @@ public class TestBookSeats {
 		
 		try {
 
-			LocalDate travelDate = LocalDate.parse("2020-04-22");
-			int amt = obj.bookSeats(32636, 1024, "chennai", "Madurai", 6, travelDate);
+			LocalDate travelDate = LocalDate.parse("2020-04-21");
+			int amt = obj.bookSeats(32636, 1023, "chennai", "Madurai", 6, travelDate);
 			
 			long mobileNumber = 9999999999L;
 			long originator = 6789012340L;
