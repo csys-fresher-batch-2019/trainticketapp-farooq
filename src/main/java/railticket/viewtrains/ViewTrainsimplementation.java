@@ -186,7 +186,8 @@ throw new DbException("INVALID SQL QUERY");
 		stmt.setDate(3, date1);
 
 		ArrayList<ListTrain> task = new ArrayList<ListTrain>();
-		ResultSet rs = stmt.executeQuery();
+	try(
+		ResultSet rs = stmt.executeQuery();){
 		while (rs.next()) {
 			ListTrain obj = new ListTrain();
 
@@ -198,6 +199,6 @@ throw new DbException("INVALID SQL QUERY");
 		}
 		return task;}
 
-	}
+	}}
 
 }
