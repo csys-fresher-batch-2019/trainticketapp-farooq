@@ -255,8 +255,8 @@ public class RegistrationImplementation implements railticket.dao.RegistrationDA
 try(						
 PreparedStatement stmt1 = connection.prepareStatement(query1);){
 
-stmt.setString(1, pass);
-stmt.setString(2, emailid1);
+stmt1.setString(1, pass);
+stmt1.setString(2, emailid1);
 						stmt.executeUpdate();
 
 					}catch (Exception e) {
