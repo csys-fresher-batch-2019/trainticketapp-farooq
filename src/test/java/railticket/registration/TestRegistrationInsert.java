@@ -13,7 +13,7 @@ public class TestRegistrationInsert {
 		try {
 			LocalDate dob = LocalDate.parse("2020-02-19");
 			
-			obj.registrationInsert("farooq", "pass11", "matd@gmail.com", 8778677667l, "M",dob,"madurai");
+			obj.registrationInsert("farooq", "pass11", "matad@gmail.com", 8778677667l, "M",dob,"madurai");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

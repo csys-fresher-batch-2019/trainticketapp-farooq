@@ -51,15 +51,18 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 	}
 
 	public int bookSeats(int trainnumber, int userId, String boarding, String destination, int noOfSeats,
+			LocalDate date) throws DbException, SQLException {
 		
-			LocalDate date) throws Exception {
-		String sql = "select blocklist from registration where user_id='"+userId+"'" ;
-	
-	try(	Connection connection = TestConnect.getConnection();
-			Statement stmt1 = connection.createStatement();
-			){
-		try(ResultSet row =  stmt1.executeQuery(sql);){
 		int a = 0;
+		
+	try(	Connection connection = TestConnect.getConnection();
+			Statement stmt1 = connection.createStatement()	){
+	
+		String sql = "select blocklist from registration where user_id="+userId+"" ;
+
+		
+		try(ResultSet row =  stmt1.executeQuery(sql);){
+		
 		if (row.next()) {
 			int status = row.getInt("blocklist");
 		
@@ -87,7 +90,6 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 
 					String sql4 = "select no_of_seats from booking where travel_date=to_date('" + date2
 							+ "','yyyy-MM-dd') and user_id=" + userId + "";
-					// System.out.println(sql4);
 					try(
 					ResultSet seats = connection.createStatement().executeQuery(sql4);){
 					if (seats.next()) {
@@ -144,13 +146,17 @@ public class Bookingimplements implements railticket.dao.BookingDAO {
 				throw new DbException("YOUR ACCOUNT IS BLOCKED ");
 			}
 		}
-		return a;
+		
 	}catch(DbException e) {
 		throw new DbException(ErrorMessages.ESTABLISH_CONNECTION);
 	}
 		}catch(DbException e1) {
 		throw new DbException(ErrorMessages.INVALID_SQLQUERY);
-	}
+	} catch (Exception e2) {
+			
+		}
+	return a;
+	
 	}
 
 	public boolean login(int userid, String password) throws DbException {

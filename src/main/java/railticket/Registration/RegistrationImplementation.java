@@ -60,7 +60,7 @@ public class RegistrationImplementation implements railticket.dao.RegistrationDA
 	}
 
 	public ArrayList<Register> getAllUserDetails() throws DbException {
-		ArrayList<Register> task = new ArrayList<Register>();
+		ArrayList<Register> task = new ArrayList<>();
 		String query = "select * from registration";
 		try (Connection connection = TestConnect.getConnection(); Statement stmt = connection.createStatement();) {
 
@@ -121,7 +121,7 @@ public class RegistrationImplementation implements railticket.dao.RegistrationDA
 						}
 
 						catch (Exception e) {
-							throw new Exception("INVALID");
+							throw new DbException("INVALID");
 						}
 					}
 				}
@@ -148,7 +148,7 @@ public class RegistrationImplementation implements railticket.dao.RegistrationDA
 			stmt.setString(1, city);
 			try (ResultSet row1 = stmt.executeQuery();) {
 
-				ArrayList<Register> task = new ArrayList<Register>();
+				ArrayList<Register> task = new ArrayList<>();
 				if (row1.next()) {
 
 					String city1 = row1.getString("city_name");
@@ -209,7 +209,7 @@ public class RegistrationImplementation implements railticket.dao.RegistrationDA
 
 					ResultSet row = stmt.executeQuery();) {
 
-				ArrayList<Register> task = new ArrayList<Register>();
+				ArrayList<Register> task = new ArrayList<>();
 				if (row.next()) {
 					Register p1 = new Register();
 
@@ -251,16 +251,19 @@ public class RegistrationImplementation implements railticket.dao.RegistrationDA
 					String emailid1 = row1.getString("email_id");
 
 					if (emailid.equals(emailid1)) {
+						String query1 = "update registration set pass=? where email_id=?";
+try(						
+PreparedStatement stmt1 = connection.prepareStatement(query1);){
 
-						String query1 = "update registration set pass='" + pass + "'where email_id='" + emailid1 + "'";
+stmt.setString(1, pass);
+stmt.setString(2, emailid1);
+						stmt.executeUpdate();
 
-						int row = stmt.executeUpdate(query1);
-						System.out.println(row);
-
+					}catch (Exception e) {
+						throw new DbException(ErrorMessages.INVALID_SQLQUERY);
 					}
-				} else {
-					Logger.getInstance().info("INCORRECT EMAILID");
-				}
+}
+				} 
 			} catch (Exception e) {
 				throw new DbException(ErrorMessages.INVALID_SQLQUERY);
 			}
@@ -290,6 +293,7 @@ public class RegistrationImplementation implements railticket.dao.RegistrationDA
 			ps.executeUpdate();
 
 		} catch (SQLException e) {
+		throw new DbException(ErrorMessages.UNABLE_TO_PROCESS_QUERY);
 
 		} catch (Exception e) {
 			throw new DbException("UNABLE TO PROCESS");
@@ -307,8 +311,9 @@ public class RegistrationImplementation implements railticket.dao.RegistrationDA
 					+ username + "','" + password + "','" + emailid + "'," + phonenumber + ",'" + gender + "',to_date('"
 					+ dob + "','yyyy-MM-dd'),'" + cityname + "')";
 			System.out.println(sql);
-			String sql1 = "select user_id from registration where email_id='" + emailid + "'";
 			stmt.executeUpdate(sql);
+			String sql1 = "select user_id from registration where email_id='" + emailid + "'";
+			stmt.executeUpdate(sql1);
 			try (ResultSet row1 = stmt.executeQuery(sql1);) {
 				if (row1.next()) {
 					System.out.println("NOTE DOWN THE USER_ID FOR BOOKING");

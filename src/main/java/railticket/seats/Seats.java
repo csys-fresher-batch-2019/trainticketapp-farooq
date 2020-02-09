@@ -1,7 +1,6 @@
 package railticket.seats;
 
 import java.sql.Date;
-import java.time.LocalDate;
 
 public class Seats {
 	
@@ -33,7 +32,6 @@ public class Seats {
 		this.availableseats = availableseats;
 	}
 	public Seats() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	

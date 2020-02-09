@@ -10,7 +10,6 @@ public class TestConnect {
 
 	
 		Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@192.168.056.205:1521:XE", "system", "oracle");
-		System.out.println(connection);
 		return connection;
 	}
 

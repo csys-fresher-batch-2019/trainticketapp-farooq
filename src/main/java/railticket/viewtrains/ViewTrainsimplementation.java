@@ -170,7 +170,7 @@ throw new DbException(ErrorMessages.UNABLE_TO_PROCESS_QUERY);
 			}
 	}
 
-	public ArrayList<ListTrain> getAllTrainsDetails() throws Exception {
+	public ArrayList<ListTrain> getAllTrainsDetails() throws DbException {
 		try(
 		Connection connection = TestConnect.getConnection();
 
@@ -199,8 +199,8 @@ try(
 } 
 	}
 
-	public ArrayList<ListTrain> getTrainDetails(String BoardingStation, String DestinationStation, LocalDate traveldate)
-			throws Exception {
+	public ArrayList<ListTrain> getTrainDetails(String boardingStation, String destinationStation, LocalDate traveldate)
+			throws DbException {
 		String sql = "select * from viewtrain where Boarding_station=? and destination_station=? and traveldate=?";
 		try (
 		Connection connection = TestConnect.getConnection();
@@ -208,8 +208,8 @@ try(
 
 		PreparedStatement stmt = connection.prepareStatement(sql);){
 		System.out.println(toString());
-		stmt.setString(2, DestinationStation);
-		stmt.setString(1, BoardingStation);
+		stmt.setString(2, destinationStation);
+		stmt.setString(1, boardingStation);
 		java.sql.Date date1 = java.sql.Date.valueOf(traveldate);
 		stmt.setDate(3, date1);
 
