@@ -1,6 +1,7 @@
 package railticket.registration;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -100,43 +101,19 @@ public class RegistrationImplementation implements railticket.dao.RegistrationDA
 		obj.setCityname(row.getString("city_name"));
 	}
 
-	public void deleteUser(String emailid) throws DbException {
-		String sql = "select email_id from registration where email_id =?";
-		try (Connection connection = TestConnect.getConnection();
+	public void deleteUser() throws DbException {
+		
+		String sql1 = "delete from booking where booking.booked_date=(select max(booked_date) from booking)";
+		try (Connection connection = TestConnect.getConnection(); 
+		Statement stmt1 = connection.createStatement()) {
+						stmt1.executeUpdate(sql1);
 
-				PreparedStatement stmt = connection.prepareStatement(sql);) {
-			stmt.setString(1, emailid);
-			try (ResultSet row1 = stmt.executeQuery();) {
-
-				if (row1.next()) {
-
-					String emailid1 = row1.getString("email_id");
-
-					if (emailid.equals(emailid1)) {
-						String sql1 = "delete registration where email_id=?";
-
-						try (PreparedStatement stmt1 = connection.prepareStatement(sql1);) {
-							stmt1.executeUpdate(sql1);
-
-						}
-
-						catch (Exception e) {
-							throw new DbException("INVALID");
-						}
-					}
-				}
-			} catch (Exception e) {
-				throw new DbException(ErrorMessages.INVALID_DATA);
-			}
-		}catch(DbException e) {
-			throw new DbException(ErrorMessages.UNABLE_TO_PROCESS_QUERY);
-		} catch (SQLException e1) {
-			throw new DbException(ErrorMessages.INVALID_SQLQUERY);
-
-		} catch (Exception e1) {
-			throw new DbException(ErrorMessages.UNABLE_TO_PROCESS);
-
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
 	}
 
 	public void getUserByCity(String city) throws DbException {
@@ -237,43 +214,22 @@ public class RegistrationImplementation implements railticket.dao.RegistrationDA
 		}
 	}
 
-	public void changePassword(String emailid, String pass) throws DbException {
-		String query = "select email_id from registration where email_id=?";
+	public void changePassword(String emailid ,String pass) throws DbException {
+
+		String query1 = "update registration set pass=? where email_id=?";
 		try (Connection connection = TestConnect.getConnection();
 
-				PreparedStatement stmt = connection.prepareStatement(query);) {
+				PreparedStatement stmt = connection.prepareStatement(query1);) {
 
-			stmt.setString(1, emailid);
-			try (ResultSet row1 = stmt.executeQuery();) {
+			stmt.setString(1, pass);
+			stmt.setString(2, emailid);
+									stmt.executeUpdate();
 
-				if (row1.next()) {
-
-					String emailid1 = row1.getString("email_id");
-
-					if (emailid.equals(emailid1)) {
-						String query1 = "update registration set pass=? where email_id=?";
-try(						
-PreparedStatement stmt1 = connection.prepareStatement(query1);){
-
-stmt1.setString(1, pass);
-stmt1.setString(2, emailid1);
-						stmt.executeUpdate();
-
-					}catch (Exception e) {
-						throw new DbException(ErrorMessages.INVALID_SQLQUERY);
-					}
-}
-				} 
-			} catch (Exception e) {
-				throw new DbException(ErrorMessages.INVALID_SQLQUERY);
-			}
-		} catch (SQLException e1) {
-			throw new DbException(ErrorMessages.UNABLE_TO_PROCESS_QUERY);
-
-		} catch (Exception e1) {
-			throw new DbException(ErrorMessages.UNABLE_TO_PROCESS);
+		} catch (Exception e) {
+//throw new DbException(ErrorMessages.ESTABLISH_CONNECTION);
+e.printStackTrace();
 		}
-	}
+			}
 
 	public static void save(Register obj) throws DbException {
 
@@ -300,9 +256,10 @@ stmt1.setString(2, emailid1);
 		}
 	}
 
-	public void registrationInsert(String username, String password, String emailid, long phonenumber, String gender,
+	public int registrationInsert(String username, String password, String emailid, long phonenumber, String gender,
 			LocalDate dob, String cityname) throws DbException {
 
+		int  user_id = 0;
 		try (Connection connection = TestConnect.getConnection();
 
 				Statement stmt = connection.createStatement();) {
@@ -317,7 +274,7 @@ stmt1.setString(2, emailid1);
 			try (ResultSet row1 = stmt.executeQuery(sql1);) {
 				if (row1.next()) {
 					System.out.println("NOTE DOWN THE USER_ID FOR BOOKING");
-					String user_id = row1.getString("user_id");
+					user_id = row1.getInt("user_id");
 					System.out.println("USER-ID=" + user_id);
 				}
 			} catch (Exception e) {
@@ -327,6 +284,7 @@ stmt1.setString(2, emailid1);
 		} catch (Exception e) {
 			throw new DbException(ErrorMessages.UNABLE_TO_PROCESS_QUERY);
 		}
+		return user_id;
 	}
 
 	public void blockUser(int userid, int status) throws DbException {

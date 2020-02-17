@@ -7,7 +7,7 @@ public class TestchangePassword {
 
 	public static void main(String[] args)throws Exception {
 		RegistrationImplementation obj = new RegistrationImplementation();
-		obj.changePassword("ameer@gmail.com","pass112");
+		obj.changePassword(1040,"pass112");
 System.out.println("SUCCESSFULLY CHANGED");
 	}
 

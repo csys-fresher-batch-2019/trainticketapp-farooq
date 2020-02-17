@@ -1,5 +1,6 @@
 package railticket.dao;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ import railticket.registration.Register;
 public interface RegistrationDAO {
 
 	
-	public void registrationInsert(String username,String password,String emailid,long phonenumber,String gender,LocalDate dob,String cityname) throws DbException;
+	public int registrationInsert(String username,String password,String emailid,long phonenumber,String gender,LocalDate dob,String cityname) throws DbException;
 	
 	public String getUserPassword(String emailid) throws DbException;
 	
@@ -21,7 +22,7 @@ public interface RegistrationDAO {
 	
 	public ArrayList<Register>getAllUserDetails()throws DbException;
 	
-	public void deleteUser(String emailid)throws DbException;
+	public void deleteUser()throws DbException;
 	
 	public void getUserByCity(String city)throws DbException;
 	
